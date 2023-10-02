@@ -2,6 +2,10 @@ export function renderBoards(player1board, player2board) {
   const gameContainer = document.getElementById("game-container");
   const gameBoard1 = document.createElement("div");
   const gameBoard2 = document.createElement("div");
+  const console = document.createElement("div");
+  console.id = "console";
+  gameContainer.appendChild(console);
+
   gameBoard1.classList.add("gameboard");
   gameBoard1.id = "gameboard1";
   gameBoard2.classList.add("gameboard");
@@ -40,8 +44,8 @@ export function renderBoards(player1board, player2board) {
 }
 
 export function updateBoards(player1board, player2board) {
-  const gameBoard1 = document.querySelector(".gameboard:nth-child(1)");
-  const gameBoard2 = document.querySelector(".gameboard:nth-child(2)");
+  const gameBoard1 = document.getElementById("gameboard1");
+  const gameBoard2 = document.getElementById("gameboard2");
 
   player1board.board.forEach((row, i) => {
     row.forEach((cell, j) => {
@@ -65,11 +69,16 @@ export function updateBoards(player1board, player2board) {
       );
       if (cell.hasShip && cell.hit) {
         cellDiv.classList.add("hit");
-      } else if (cell.hasShip) { //  DON'T NEED THIS BECAUSE THAT WOULD BE WALLHACKS
-        cellDiv.classList.add("ship");
       } else if (cell.hit) {
         cellDiv.classList.add("miss");
       }
     });
   });
+}
+
+export function logMessage(message) {
+  const console = document.getElementById("console");
+  console.textContent = '';
+  console.textContent = message;
+
 }

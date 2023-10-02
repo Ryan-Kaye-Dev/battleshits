@@ -1,6 +1,6 @@
 import Player from './Player';
 import Gameboard from './Gameboard';
-import { renderBoards, updateBoards } from './ui';
+import { renderBoards, updateBoards, logMessage } from './ui';
 
 export default async function gameLoop() {
   let player1board = new Gameboard();
@@ -34,7 +34,7 @@ export default async function gameLoop() {
       
       if (!player2board.board[row][col].hit) {
         // Check if the cell has not been hit before
-        console.log(`Player 1 attacks: ${row}, ${col}`);
+        logMessage(`Player 1 attacks: ${row}, ${col}`);
         
         // Perform the attack logic here
         player2board.receiveAttack(row, col);
@@ -45,7 +45,7 @@ export default async function gameLoop() {
         // Resolve the promise to continue the game loop
         waitForPlayerMoveResolve();
       } else {
-        console.log("You can't attack the same cell twice.");
+        logMessage("You can't attack the same cell twice.");
       }
     }
   });
