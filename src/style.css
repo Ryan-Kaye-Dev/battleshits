@@ -4,6 +4,13 @@
     font-weight: 600;
     font-style: normal;
   }
+
+@font-face {
+    font-family: 'sans';
+    src: url(./fonts/PublicSans-VariableFont_wght.ttf) format('truetype'); /* Use 'truetype' format */
+    font-weight: 600;
+    font-style: normal;
+}
   
 
 h2 {
@@ -76,13 +83,12 @@ h2 {
 
 
 #console {
-    border: solid 1px black;
     grid-column: 2 / 3; /* Updated grid column values */
     grid-row: 1 / 2; /* Updated grid row values */
     justify-content: center;
     align-items: center;
     font-size: 1.5rem;
-    font-family: 'MrPoop';
+    font-family: 'sans';
 }
 
 /* Keep ship class */

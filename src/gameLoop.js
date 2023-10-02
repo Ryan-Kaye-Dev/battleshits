@@ -34,7 +34,7 @@ export default async function gameLoop() {
       
       if (!player2board.board[row][col].hit) {
         // Check if the cell has not been hit before
-        logMessage(`Player 1 attacks: ${row}, ${col}`);
+        logMessage(`PKAYER 1 ATTACKS: ${row}, ${col}`);
         
         // Perform the attack logic here
         player2board.receiveAttack(row, col);
