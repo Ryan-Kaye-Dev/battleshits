@@ -1,41 +1,93 @@
+@font-face {
+    font-family: 'MrPoop';
+    src: url('./fonts/The\ Fabulous\ Mr.\ Poop.ttf') format('ttf');
+    font-weight: 600;
+    font-style: normal;
+  }
+
 h2 {
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+    font-family: 'MrPoop';
+    font-size: 2rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.p1-title {
+  grid-row: 1 / 2; /* Updated grid row values */
+  grid-column: 1 / 2; /* Updated grid column values */
+}
+
+.p2-title {
+  grid-row: 1 / 2; /* Updated grid row values */
+  grid-column: 2 / 3; /* Updated grid column values */
+}
+
+#game-container {
+  justify-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 10vh 90vh; /* Use specific vh values */
+  gap: 10px; /* Adjust the gap between elements as needed */
+}
+
+#gameboard1 {
+  grid-column: 1 / 2; /* Updated grid column values */
+  grid-row: 2 / 3; /* Updated grid row values */
+  cursor: not-allowed;
+
+}
+
+#gameboard2 {
+  grid-column: 2 / 3; /* Updated grid column values */
+  grid-row: 2 / 3; /* Updated grid row values */
 }
 
 .gameboard {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(10, 25px);
-    grid-template-rows: repeat(10, 25px);
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 50px;
+  max-width: 300px;
+  max-height: 300px;
+  display: grid;
+  grid-template-columns: repeat(
+    10,
+    minmax(35px, 1fr)
+  ); /* Adjust column sizing */
+  grid-template-rows: repeat(10, minmax(35px, 1fr)); /* Adjust row sizing */
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 50px;
+}
+
+#gameboard1 .cell {
+  cursor: not-allowed;
 }
 
 .cell {
-    width: 25px;
-    height: 25px;
-    border: 1px solid black;
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 50px;
-    cursor: pointer;
-    user-select: none;
+  min-width: 35px; /* Minimum width */
+  min-height: 35px; /* Minimum height */
+  width: 35px; /* Set width to 35px (square) */
+  height: 35px; /* Set height to 35px (square) */
+  border: 1px solid black;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 16px; /* Adjust font size */
+  cursor: pointer;
+  user-select: none;
 }
 
-.hit {
-    background-color: rgba(255, 0, 0, 0.521);
-    z-index: 1;
-}
-
+/* Keep ship class */
 .ship {
-    background-color: rgba(106, 57, 196, 0.589);
-    z-index: 0;
+  background-color: rgba(106, 57, 196, 0.589);
+  z-index: 0;
 }
 
+/* Move hit class below ship class to override it */
+.hit {
+  background-color: rgba(255, 0, 0, 0.521);
+  z-index: 10;
+  cursor: not-allowed;
+}
+
+/* Miss class remains the same */
 .miss {
-    background-color: rgba(17, 17, 17, 0.678);
+  background-color: rgba(17, 17, 17, 0.678);
 }

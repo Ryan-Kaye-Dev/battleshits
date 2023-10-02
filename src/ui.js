@@ -3,16 +3,20 @@ export function renderBoards(player1board, player2board) {
   const gameBoard1 = document.createElement("div");
   const gameBoard2 = document.createElement("div");
   gameBoard1.classList.add("gameboard");
+  gameBoard1.id = "gameboard1";
   gameBoard2.classList.add("gameboard");
+  gameBoard2.id = "gameboard2";
   gameContainer.appendChild(gameBoard1);
   gameContainer.appendChild(gameBoard2);
 
   const gameBoard1Title = document.createElement("h2");
   gameBoard1Title.textContent = "Player 1";
   gameContainer.appendChild(gameBoard1Title);
+  gameBoard1Title.classList.add("p1-title");
   const gameBoard2Title = document.createElement("h2");
   gameBoard2Title.textContent = "Player 2";
   gameContainer.appendChild(gameBoard2Title);
+  gameBoard2Title.classList.add("p2-title");
 
   player1board.board.forEach((row, i) => {
     row.forEach((cell, j) => {
@@ -61,8 +65,8 @@ export function updateBoards(player1board, player2board) {
       );
       if (cell.hasShip && cell.hit) {
         cellDiv.classList.add("hit");
-      /*}  else if (cell.hasShip) {  DON'T NEED THIS BECAUSE THAT WOULD BE WALLHACKS
-        cellDiv.classList.add("ship"); */
+      } else if (cell.hasShip) { //  DON'T NEED THIS BECAUSE THAT WOULD BE WALLHACKS
+        cellDiv.classList.add("ship");
       } else if (cell.hit) {
         cellDiv.classList.add("miss");
       }
