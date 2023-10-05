@@ -78,7 +78,40 @@ export function updateBoards(player1board, player2board) {
 
 export function logMessage(message) {
   const console = document.getElementById("console");
-  console.textContent = '';
+  console.textContent = "";
   console.textContent = message;
+}
 
+export function showShipInventory() {
+  const shipInventory = document.createElement("div");
+  shipInventory.id = "ship-inventory";
+  const gameContainer = document.getElementById("game-container");
+  gameContainer.appendChild(shipInventory);
+
+  const shipInventoryTitle = document.createElement("h3");
+  shipInventoryTitle.textContent = "Inventory";
+  shipInventory.appendChild(shipInventoryTitle);
+  shipInventoryTitle.classList.add("ship-inventory-title");
+
+  // for each image in the images folder, create a div with the image as the background
+  // images
+  const shipImages = [
+    "battleship",
+    "cruiser",
+    "submarine",
+    "destroyer",
+    "patrol",
+    "rotate",
+  ];
+
+  shipImages.forEach((ship) => {
+    const shipDiv = document.createElement("div");
+    shipDiv.classList.add("boat");
+    shipDiv.id = ship;
+    const image = document.createElement("img");
+    image.src = `../src/images/${ship}.png`;
+    image.id = `${ship}-img`;
+    shipDiv.appendChild(image);
+    shipInventory.appendChild(shipDiv);
+  });
 }

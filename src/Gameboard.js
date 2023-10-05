@@ -41,7 +41,7 @@ export default class Gameboard {
     }
   }
 
-  placeShip(ship, x, y, direction) {
+  placeShip(ship, x, y, direction = "horizontal") {
     // Check if ship placement is valid
     if (!this.isValidPlacement(ship, x, y, direction)) {
       return false;
@@ -66,6 +66,8 @@ export default class Gameboard {
 
   isValidPlacement(ship, x, y, direction) {
     // Check if ship is within bounds
+    console.log(`Checking if ship is within bounds`);
+    console.log(`x: ${x}, y: ${y}, direction: ${direction}`);
     if (direction === "horizontal") {
       if (y + ship.length > 9) return false;
     } else {

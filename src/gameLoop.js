@@ -1,6 +1,6 @@
 import Player from './Player';
 import Gameboard from './Gameboard';
-import { renderBoards, updateBoards, logMessage } from './ui';
+import { renderBoards, updateBoards, logMessage, showShipInventory } from './ui';
 
 export default async function gameLoop() {
   let player1board = new Gameboard();
@@ -12,11 +12,25 @@ export default async function gameLoop() {
   let gameOver = false;
   let winner = null;
 
-  player1board.randomlyPlaceShips();
+  // Initialize selected ship as null
+  let selectedShip = null;
+
+  showShipInventory();
+
   player2board.randomlyPlaceShips();
   renderBoards(player1board, player2board);
 
-  const playerBoard2 = document.getElementById('gameboard2');
+  logMessage(`${player1.name}! Place your ships.`);
+
+  let waitForPlayerToPlaceShipsResolve;
+
+  const waitForPlayerToPlaceShips = () => {
+    return new Promise((resolve) => {
+      waitForPlayerToPlaceShipsResolve = resolve;
+    });
+  };
+
+  const playerBoard = document.getElementById('gameboard1');
   let waitForPlayerMoveResolve;
 
   const waitForPlayerMove = () => {
@@ -25,30 +39,54 @@ export default async function gameLoop() {
     });
   };
 
-  playerBoard2.addEventListener('click', async (e) => {
-    if (player1.turn) {
-      // Handle player 1's move based on the click event
+  // Handle ship selection logic
+  const shipButtons = Array.from(document.getElementsByClassName("boat"));
+
+  shipButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      if (!selectedShip) {
+        selectedShip = e.target.id;
+        const shipImg = document.getElementById(`${selectedShip}-img`);
+        button.classList.toggle("selected");
+      } else {
+        // Deselect the previously selected ship
+        document.getElementById(`${selectedShip}-img`).classList.remove("selected");
+        selectedShip = e.target.id;
+        const shipImg = document.getElementById(`${selectedShip}-img`);
+        button.classList.toggle("selected");
+      }
+    });
+  });
+
+  playerBoard.addEventListener('click', async (e) => {
+    if (player1.turn && selectedShip) {
+      // Handle ship placement based on the click event
       const cell = e.target;
       const row = cell.dataset.row;
       const col = cell.dataset.col;
-      
-      if (!player2board.board[row][col].hit) {
-        // Check if the cell has not been hit before
-        logMessage(`PKAYER 1 ATTACKS: ${row}, ${col}`);
-        
-        // Perform the attack logic here
-        player2board.receiveAttack(row, col);
-        
-        // Remove the event listener after the move
-        playerBoard2.removeEventListener('click', waitForPlayerMove);
-        
+
+      // Check if the cell is a valid location to place the ship
+      if (player1board.placeShip(selectedShip, row, col)) {
+        // Perform ship placement logic here
+        player1board.placeShip(selectedShip, row, col);
+
+        // Update the game board and remove the event listener
+        updateBoards(player1board, player2board);
+        playerBoard.removeEventListener('click', waitForPlayerMove);
+
+        // Clear the selected ship
+        selectedShip = null;
+
         // Resolve the promise to continue the game loop
         waitForPlayerMoveResolve();
       } else {
-        logMessage("You can't attack the same cell twice.");
+        logMessage("Invalid placement. Please choose another cell.");
       }
     }
   });
+
+  // Wait for the player to place ships before starting the game
+  await waitForPlayerToPlaceShips();
 
   while (!gameOver) {
     if (player1.turn) {
@@ -72,5 +110,5 @@ export default async function gameLoop() {
       winner = player1;
     }
   }
-  return console.log(`${winner.name} Wins!`);
+  return logMessage(`${winner.name} Wins!`);
 }
